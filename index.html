@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F3E4D0">
+<title>Club Café — La Carte</title>
+<meta name="description" content="Carte digitale Club Café : menus, offres, cafés, boissons froides et gourmandises. Images illustratives, disponibilité et tarifs à confirmer en café.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Club Café — La Carte">
+<meta property="og:description" content="Carte digitale Club Café : menus, offres, cafés, boissons froides et gourmandises.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="images/icon-192.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+</head>
+<body>
+<main class="shell">
+<section class="phone home">
+<header class="brand-header">
+<img class="brand-logo" alt="Club Café" src="images/logo.png">
+</header>
+<div class="search">
+<input enterkeyhint="search" id="search" placeholder="Rechercher une gourmandise..." aria-label="Rechercher un produit">
+<button type="button" class="search-clear" id="clearSearch" aria-label="Effacer la recherche" title="Effacer">×</button>
+<button type="button" aria-label="Rechercher" id="searchAction">
+<svg width="23" height="23" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+<circle cx="10" cy="10" r="6"/>
+<path d="m15 15 6 6"/>
+</svg>
+</button>
+</div>
+<div class="extras-ticker" aria-label="Suppléments disponibles">
+<div class="extras-track">
+<div class="extras-cycle">
+<span class="extras-item">
+<strong>🌿 Lait végétal</strong> coco · amande · avoine <b>+0,90 €</b>
+</span>
+<span class="extras-sep" aria-hidden="true">✦</span>
+<span class="extras-item">
+<strong>✧ Sirop</strong> vanille · caramel · noisette · cannelle <b>+0,90 €</b>
+</span>
+<span class="extras-sep" aria-hidden="true">✦</span>
+<span class="extras-item">
+<strong>Chantilly</strong> <b>+0,60 €</b>
+</span>
+</div>
+<div class="extras-cycle" aria-hidden="true">
+<span class="extras-item">
+<strong>🌿 Lait végétal</strong> coco · amande · avoine <b>+0,90 €</b>
+</span>
+<span class="extras-sep" aria-hidden="true">✦</span>
+<span class="extras-item">
+<strong>✧ Sirop</strong> vanille · caramel · noisette · cannelle <b>+0,90 €</b>
+</span>
+<span class="extras-sep" aria-hidden="true">✦</span>
+<span class="extras-item">
+<strong>Chantilly</strong> <b>+0,60 €</b>
+</span>
+</div>
+</div>
+</div>
+<h2 class="sectiontitle" hidden style="display:none!important">Catégories</h2>
+<div class="chips" id="chips">
+</div>
+<section class="featured-collection" aria-label="À découvrir">
+<strong>À découvrir</strong>
+<div id="featuredItems" class="featured-items">
+</div>
+</section>
+<p class="eyebrow">Faites-vous plaisir</p>
+<h2 class="sectiontitle" style="margin-top:7px" id="listTitle">Nos incontournables</h2>
+<p class="headingNote">Touchez un produit pour découvrir ses détails</p>
+<div class="products" id="products">
+</div>
+<section id="ccBoutique" aria-label="La Boutique">
+</section>
+<button type="button" id="scrollTopClub" aria-label="Retour en haut" hidden>↑</button>
+<section id="clubNavPage" aria-label="Navigation">
+</section>
+<nav class="nav" aria-label="Navigation principale">
+<button class="active" id="homeBtn">
+<svg viewBox="0 0 24 24" fill="currentColor">
+<path d="m12 3-10 9h3v9h6v-6h3v6h6v-9h3z"/>
+</svg>Accueil</button>
+<button id="menuBtn">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<rect x="3" y="3" width="7" height="7" rx="1"/>
+<rect x="14" y="3" width="7" height="7" rx="1"/>
+<rect x="3" y="14" width="7" height="7" rx="1"/>
+<rect x="14" y="14" width="7" height="7" rx="1"/>
+</svg>Catégories</button>
+<button id="ccNavFav" type="button">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>
+</svg>
+<span>Favoris</span>
+</button>
+<button id="aboutBtn">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<circle cx="12" cy="12" r="9"/>
+<path d="M12 11v6m0-10v2"/>
+</svg>Infos</button>
+</nav>
+</section>
+<section class="phone detail desktopDetail" id="desktopDetail" aria-label="Détails du produit">
+</section>
+</main>
+<section class="phone detail mobileDetail" id="mobileDetail" inert aria-hidden="true" role="dialog" aria-modal="true" aria-label="Détails du produit">
+</section>
+<script src="js/data.js">
+</script>
+<script src="js/app.js">
+</script>
+</body>
+</html>
