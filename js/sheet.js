@@ -92,6 +92,7 @@
         img: cleanUrl(r.img),
         extra: text(r.extra)
       };
+      if (isTrue(r.featured)) p.featured = true;   // colonne « featured » = oui → produit affiché dans « À découvrir »
       if (cat === 'offres') {
         p.badge = text(r.badge) || 'OFFRE';
         p.second = cleanUrl(r.second) || p.img;
@@ -153,6 +154,7 @@
       if (!cats.some(c => c.id === selected)) selected = cats[0] ? cats[0].id : selected;
       renderChips();
       renderProducts();
+      if (typeof window.ccRenderFeatured === 'function') window.ccRenderFeatured();
       if (current) showItem(current);
     } catch (e) { console.error('[sheet] rafraîchissement impossible', e); }
   }
