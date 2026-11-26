@@ -9,7 +9,7 @@
     produits: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTfNz9WTLf1ZzA63Yawyij2rVQssk4kboHjfGgAUKJjYPiQHckvznIgc0kan5tg8nhs166jgb2iIhqi/pub?output=csv',
     categories: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTbgJZJBa-CoaEU5b8Z5JGu7EVHcn5e_3koc_3T7ZjLu1CZLF7gc2suVD1zA6E7csnR3RkY9usbVRgj/pub?output=csv'
   };
-  const CACHE_KEY = 'ccSheetCache.v1';
+  const CACHE_KEY = 'ccSheetCache.v2';
   const TIMEOUT_MS = 8000;
 
   if (/[?&]nosheet\b/.test(location.search)) return;
@@ -49,7 +49,11 @@
   // ---------- nettoyage ----------
   const text = v => String(v == null ? '' : v).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').trim();
   const isTrue = v => /^(oui|yes|true|vrai|1|x)$/i.test(text(v));
-  const slug = v => { const s = text(v); return /^[A-Za-z0-9_-]{1,40}$/.test(s) ? s : ''; };
+  // identifiant : accents retirés (crêpes → crepes), minuscules, espaces → tirets ; le même traitement s'applique aux deux feuilles
+  const slug = v => {
+    const s = text(v).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[\s_]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    return /^[a-z0-9_-]{1,40}$/.test(s) ? s : '';
+  };
   function cleanUrl(v) {
     const u = text(v);
     if (!u || /["'<>`\\\s]/.test(u)) return '';
