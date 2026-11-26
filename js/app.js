@@ -115,7 +115,7 @@ let searchFrame=0;search.addEventListener('input',()=>{if(searchFrame)cancelAnim
  sync();
 })();
 
-(()=>{const box=document.getElementById('featuredItems');if(!box)return;const picks=[311,312,322,400].map(id=>items.find(p=>p.id===id)).filter(Boolean);const featuredPhotos={311: 'images/featured-311.webp', 312: 'images/featured-312.webp', 322: 'images/featured-322.webp'};for(const p of picks){const b=document.createElement('button');b.type='button';const img=document.createElement('img');img.src=featuredPhotos[p.id]||p.img;img.alt='';img.onerror=()=>{img.onerror=null;img.src=p.fallbackImg||photo.capp};const label=document.createElement('span');label.textContent=p.name;b.append(img,label);b.onclick=()=>showItem(p,true);box.append(b)}})();
+(()=>{const box=document.getElementById('featuredItems');if(!box)return;window.ccRenderFeatured=()=>{const all=[...items,...menuItems,...offers];let picks=all.filter(p=>p.featured);if(!picks.length)picks=[311,312,322,400].map(id=>all.find(p=>p.id===id)).filter(Boolean);box.innerHTML='';const sec=box.closest('.featured-collection');if(sec)sec.hidden=!picks.length;for(const p of picks){const b=document.createElement('button');b.type='button';const img=document.createElement('img');img.src=p.img;img.alt='';img.onerror=()=>{img.onerror=null;img.src=p.fallbackImg||photo.capp};const label=document.createElement('span');label.textContent=p.name;b.append(img,label);b.onclick=()=>showItem(p,true);box.append(b)}};window.ccRenderFeatured()})();
 
 (()=>{const b=document.getElementById('scrollTopClub');if(!b)return;const update=()=>{b.hidden=window.scrollY<450||document.getElementById('mobileDetail').classList.contains('open')};window.addEventListener('scroll',update,{passive:true});new MutationObserver(update).observe(document.getElementById('mobileDetail'),{attributes:true,attributeFilter:['class']});b.onclick=()=>window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});update()})();
 
@@ -195,4 +195,3 @@ new MutationObserver(sync).observe(ccFavBtn,{attributes:true,attributeFilter:['a
 
 // Offline shell, only on supported secure origins.
 if(location.protocol!=="file:" && "serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
-
