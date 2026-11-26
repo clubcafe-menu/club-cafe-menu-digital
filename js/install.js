@@ -15,7 +15,11 @@
   set(v){try{localStorage.setItem(KEY,String(v))}catch(e){}}
  };
  const standalone=()=>(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
- const dismissed=()=>Number(store.get())>Date.now();
+ const dismissed=()=>{
+  const until=Number(store.get());
+  if(until-Date.now()>4*DAY){store.set(0);return false} // anciennes valeurs (14 jours / 1 an) : ignorées
+  return until>Date.now();
+ };
  const SHARE='<svg class="cc-install-share" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3m0 0L8 7m4-4 4 4"/><path d="M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"/></svg>';
  let deferred=null,visible=false,timer=null;
 
@@ -45,7 +49,6 @@
  });
  window.addEventListener('appinstalled',()=>{
   deferred=null;
-  store.set(Date.now()+365*DAY);
   clearTimeout(timer);
   hide();
  });
@@ -60,7 +63,7 @@
   }catch(e){}
  });
  close.addEventListener('click',()=>{
-  store.set(Date.now()+14*DAY);
+  store.set(Date.now()+2*DAY);
   clearTimeout(timer);
   hide();
  });
