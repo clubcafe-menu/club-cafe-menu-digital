@@ -4755,3 +4755,36 @@ body,
   outline: 3px solid #792039;
 }
 }
+
+@layer base {
+/* Favoris : chaque catégorie s'affiche en rangée horizontale (défilement latéral) */
+#ccFavoritePanel .products {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 80px 16px 28px;
+  margin: 0 -16px;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+#ccFavoritePanel .products::-webkit-scrollbar {
+  display: none;
+}
+
+#ccFavoritePanel .products > .product {
+  flex: 0 0 auto;
+  width: 190px;
+  scroll-snap-align: start;
+}
+
+#ccFavoritePanel .cc-result-group > h3 {
+  margin-bottom: -56px;
+  position: relative;
+  z-index: 3;
+}
+}
