@@ -14,14 +14,12 @@ const ccDefaultCatIcon = '<rect x="4" y="4" width="16" height="16" rx="4"/><circ
 const catPaths = {
   menus: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
   offres: '<path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-9 9-9-9Z"/><circle cx="8" cy="8" r="1"/>',
-  cafes: '<path d="M3 9h14v5a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6zM17 10h2a3 3 0 0 1 0 6h-2M2 22h19M7 6c-3-3 3-3 0-5M12 6c-3-3 3-3 0-5"/>',
-  chaus: '<path d="M3 9h14v5a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6zM17 10h2a3 3 0 0 1 0 6h-2M2 22h19M7 6c-3-3 3-3 0-5M12 6c-3-3 3-3 0-5"/>',
-  gourmands: '<path d="M4 7h16l-3 15H7L4 7ZM14 7l3-5h4M5 12h14"/><rect x="8" y="14" width="4" height="4" rx=".7" transform="rotate(-12 10 16)"/><rect x="13" y="17" width="3" height="3" rx=".5"/>',
-  froids: '<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M6 5h12M6 19h12M10 3.5h4M6 15c4-7 8-7 12-4M6 17c4-7 8-7 12-4"/>',
+  cafes: '<path d="M4 9h13v5a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6V9ZM17 10h2a3 3 0 0 1 0 6h-2M8 3v3M13 3v3"/>',
+  gourmands: '<path d="M5 9h14l-2 11H7L5 9ZM8 9c-2-3 0-6 3-6s5 3 3 6M3 9h18"/>',
+  froids: '<path d="M7 4h10l-1 16H8L7 4ZM5 4h14M10 8l4 5M14 8l-4 5"/>',
   matin: '<path d="M3 16c1-8 6-12 12-11 4 1 6 4 6 8-1 5-7 8-12 7-3 0-5-2-6-4ZM9 9l3 3M15 7l2 4M6 14l4 2"/>',
   sales: '<path d="M3 11 12 4l9 7-9 9-9-9ZM6 13h12M9 16h6"/>',
   desserts: '<path d="M4 12c0-3 3-5 8-5s8 2 8 5v7H4v-7ZM4 13h16M8 4v3M12 3v4M16 4v3"/>',
-  crepes: '<path d="M12 22 2 6Q12-2 22 6L12 22Z M4 9Q12 3 20 9 M7 11l2 1m5-3 2 1m-5 5 1 1"/>',
 };
 function renderChips() {
   chips.innerHTML = cats
@@ -359,7 +357,20 @@ showItem(current);
   window.ccRenderFeatured = () => {
     const all = [...items, ...menuItems, ...offers];
     let picks = all.filter((p) => p.featured);
-    if (!picks.length) picks = [311, 312, 322, 400].map((id) => all.find((p) => p.id === id)).filter(Boolean);
+    if (!picks.length) {
+      // 1) sélection d'origine, retrouvée par id puis par nom (les ids changent quand la feuille Google est mise à jour)
+      const names = ['matcha latte', 'ube latte', 'matcha glacé', 'iced ube latte classique'];
+      const norm = (t) => String(t || '').toLowerCase().trim();
+      picks = [311, 312, 322, 400]
+        .map((id, i) => all.find((p) => p.id === id) || all.find((p) => norm(p.name) === names[i]))
+        .filter(Boolean);
+      // 2) sinon : les premiers produits de boissons / gourmandises, pour que la bande ne disparaisse jamais
+      if (!picks.length) {
+        const pool = items.filter((p) => p.name && p.img);
+        const pref = pool.filter((p) => ['gourmands', 'froids', 'cafes'].includes(p.cat));
+        picks = (pref.length >= 4 ? pref : pool).slice(0, 6);
+      }
+    }
     box.innerHTML = '';
     const sec = box.closest('.featured-collection');
     if (sec) sec.hidden = !picks.length;
