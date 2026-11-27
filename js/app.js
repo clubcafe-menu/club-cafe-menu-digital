@@ -179,7 +179,11 @@ function showItem(p, openMobile = false) {
   if (openMobile && mobileViewport) {
     if (!m.classList.contains('open')) ccReturnFocus = document.activeElement;
     m.innerHTML = detailHTML(p, true);
-    m.querySelector('[data-back]').onclick = () => closeDetail();
+    m.querySelector('[data-back]').onclick = () => {
+      // Retour d'une seule étape : produit précédent, ou fermeture de la fiche
+      if (history.state && history.state.cc) history.back();
+      else closeDetail();
+    };
     m.classList.add('open');
     m.removeAttribute('aria-hidden');
     m.inert = false;
