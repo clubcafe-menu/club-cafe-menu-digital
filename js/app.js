@@ -21,7 +21,7 @@ const catPaths = {
   matin: '<path d="M3 16c1-8 6-12 12-11 4 1 6 4 6 8-1 5-7 8-12 7-3 0-5-2-6-4ZM9 9l3 3M15 7l2 4M6 14l4 2"/>',
   sales: '<path d="M3 11 12 4l9 7-9 9-9-9ZM6 13h12M9 16h6"/>',
   desserts: '<path d="M4 12c0-3 3-5 8-5s8 2 8 5v7H4v-7ZM4 13h16M8 4v3M12 3v4M16 4v3"/>',
-  crêpes: '<path d="M12 22 2 6Q12-2 22 6L12 22Z M4 9Q12 3 20 9 M7 11l2 1m5-3 2 1m-5 5 1 1"/>',
+  crepes: '<path d="M12 22 2 6Q12-2 22 6L12 22Z M4 9Q12 3 20 9 M7 11l2 1m5-3 2 1m-5 5 1 1"/>',
 };
 function renderChips() {
   chips.innerHTML = cats
