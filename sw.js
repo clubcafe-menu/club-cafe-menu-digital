@@ -1,7 +1,7 @@
 // Club Café — service worker
 // Règle simple : le réseau d'abord (le client voit toujours la dernière version),
 // le cache seulement si la connexion est coupée. Aucun fichier à lister à la main.
-const CACHE = "club-cafe-v12";
+const CACHE = "club-cafe-v13";
 
 // Fichiers préchargés à l'installation (facultatif : tout fichier visité est mis en cache automatiquement).
 const ASSETS = ["./", "./index.html", "./css/style.css", "./js/app.js", "./js/data.js", "./js/install.js", "./js/sheet.js", "./manifest.webmanifest", "./favicon.ico", "./images/logo.png", "./images/icon-512.png", "./images/apple-touch-icon.png", "./images/icon-192.png"];
