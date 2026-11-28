@@ -4904,8 +4904,8 @@ body,
   gap: 10px;
   box-sizing: border-box;
   width: 100%;
-  min-height: 78px;
-  padding: 10px 14px 10px 18px;
+  min-height: 70px;
+  padding: 6px 14px 6px 18px;
   border: 2px solid #7a1230;
   border-radius: 999px;
   background: linear-gradient(180deg, #fff6ea, #fbe9d6);
