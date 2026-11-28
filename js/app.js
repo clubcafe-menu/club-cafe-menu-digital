@@ -160,6 +160,12 @@ function ccDetailBase(p, mobile = false) {
 }
 let ccReturnFocus = null;
 const ccShell = document.querySelector('.shell');
+// Pendant l'ouverture d'une fiche produit, tout le fond est inerte SAUF la barre de navigation du bas (elle reste cliquable).
+function ccSetBackgroundInert(value) {
+  ccShell.querySelectorAll('.home > :not(.nav), #desktopDetail').forEach((el) => {
+    el.inert = value;
+  });
+}
 function showItem(p, openMobile = false) {
   if (!p) return;
   current = p;
@@ -187,7 +193,7 @@ function showItem(p, openMobile = false) {
     m.classList.add('open');
     m.removeAttribute('aria-hidden');
     m.inert = false;
-    ccShell.inert = true;
+    ccSetBackgroundInert(true);
     document.body.style.overflow = 'hidden';
     m.scrollTop = 0;
     m.querySelector('[data-back]').focus({ preventScroll: true });
@@ -204,7 +210,7 @@ function closeDetail(restoreFocus = true) {
   const m = document.getElementById('mobileDetail');
   if (!m.classList.contains('open')) return;
   m.classList.remove('open');
-  ccShell.inert = false;
+  ccSetBackgroundInert(false);
   document.body.style.overflow = '';
   if (restoreFocus) {
     const target = ccReturnFocus?.isConnected ? ccReturnFocus : search;
