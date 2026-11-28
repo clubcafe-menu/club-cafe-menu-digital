@@ -186,8 +186,8 @@ function showItem(p, openMobile = false) {
     if (!m.classList.contains('open')) ccReturnFocus = document.activeElement;
     m.innerHTML = detailHTML(p, true);
     m.querySelector('[data-back]').onclick = () => {
-      // Retour d'une seule étape : produit précédent, ou fermeture de la fiche
-      if (history.state && history.state.cc) history.back();
+      // Retour d'une seule étape : produit précédent, ou fermeture de la fiche (immédiat, sans attendre popstate)
+      if (window.ccBack) window.ccBack();
       else closeDetail();
     };
     m.classList.add('open');
@@ -649,7 +649,14 @@ function ccPhotoAccess() {
     x.setAttribute('role', 'button');
   });
 }
-new MutationObserver(ccPhotoAccess).observe(document.body, { childList: true, subtree: true });
+let ccPhotoRaf = 0;
+new MutationObserver(() => {
+  if (!ccPhotoRaf)
+    ccPhotoRaf = requestAnimationFrame(() => {
+      ccPhotoRaf = 0;
+      ccPhotoAccess();
+    });
+}).observe(document.body, { childList: true, subtree: true });
 ccPhotoAccess();
 
 function ccSubmitSearch() {
@@ -761,7 +768,14 @@ function ccSubmitSearch() {
       }
     });
   }
-  new MutationObserver(loading).observe(document.body, { childList: true, subtree: true });
+  let ccLoadRaf = 0;
+  new MutationObserver(() => {
+    if (!ccLoadRaf)
+      ccLoadRaf = requestAnimationFrame(() => {
+        ccLoadRaf = 0;
+        loading();
+      });
+  }).observe(document.body, { childList: true, subtree: true });
   loading();
 })();
 document.querySelector('.home .nav').addEventListener(
@@ -852,7 +866,15 @@ if (current) showItem(current, document.getElementById('mobileDetail').classList
   const stack = [],
     trail = [];
   let skip = 0,
+    skipTimer = 0,
     popping = false;
+  // history.go() est asynchrone : si popstate n'arrive jamais, on ne doit pas rester bloqué avec skip > 0
+  const goBack = (n) => {
+    skip++;
+    clearTimeout(skipTimer);
+    skipTimer = setTimeout(() => (skip = 0), 500);
+    history.go(-n);
+  };
   const baseShow = showItem;
   showItem = function (p, open) {
     if (open && ccMobileQuery.matches && md.classList.contains('open') && p && current && current.id !== p.id) {
@@ -887,19 +909,27 @@ if (current) showItem(current, document.getElementById('mobileDetail').classList
       const n = stack.length - i;
       stack.splice(i);
       if (type === 'detail') trail.length = 0;
-      if (n > 0) {
-        skip++;
-        history.go(-n);
-      }
+      if (n > 0) goBack(n);
     }
   }
   new MutationObserver(() => sync('detail')).observe(md, { attributes: true, attributeFilter: ['class'] });
   new MutationObserver(() => sync('page')).observe(home, { attributes: true, attributeFilter: ['class'] });
   new MutationObserver(() => sync('dialog')).observe(ccDialog, { attributes: true, attributeFilter: ['open'] });
   ccDialog.addEventListener('close', () => sync('dialog'));
+  // Bouton « retour » de la fiche : agit tout de suite, l'historique est resynchronisé ensuite
+  window.ccBack = () => {
+    if (!is.detail()) return;
+    if (stack[stack.length - 1] === 'nav') {
+      stack.pop();
+      const prev = trail.pop();
+      if (prev) baseShow(prev, true);
+      goBack(1);
+    } else closeDetail();
+  };
   addEventListener('popstate', () => {
     if (skip > 0) {
       skip--;
+      if (!skip) clearTimeout(skipTimer);
       return;
     }
     const type = stack.pop();
