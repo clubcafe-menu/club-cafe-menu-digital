@@ -92,6 +92,9 @@
         img: cleanUrl(r.img),
         extra: text(r.extra)
       };
+      // colonne « pair » : ids des produits suggérés, ex. 300,305,412
+      const pair = text(r.pair).split(/[\s,;|]+/).map(n => parseInt(n, 10)).filter(n => n > 0 && n !== id);
+      if (pair.length) p.pair = pair.slice(0, 6);
       if (isTrue(r.featured)) p.featured = true;   // colonne « featured » = oui → produit affiché dans « À découvrir »
       if (cat === 'offres') {
         p.badge = text(r.badge) || 'OFFRE';
