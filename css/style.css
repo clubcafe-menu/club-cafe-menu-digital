@@ -4858,3 +4858,25 @@ body,
 .cc-result-group > .products:not(.offers-grid) {
   padding-top: 72px;
 }
+
+/* Favoris : sur téléphone, les cartes d'une rangée sortaient de l'écran et élargissaient toute la page,
+   car « .products:not(.offers-grid) { overflow: visible !important } » (dans @layer base) l'emportait.
+   Une règle !important hors couche perd contre une règle !important en couche : on la place donc dans la même couche, avec un sélecteur plus précis. */
+@layer base {
+  #ccFavoritePanel .cc-result-group > .products {
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+  }
+  #ccFavoritePanel .cc-result-group > .products > .product {
+    flex: 0 0 auto;
+  }
+}
+
+/* Favoris, rangée des offres : pas de photo qui dépasse, donc pas besoin du grand espace sous le titre */
+#ccFavoritePanel .cc-result-group > .products.offers-grid {
+  padding-top: 14px;
+}
