@@ -4909,7 +4909,7 @@ body,
   border: 2px solid #7a1230;
   border-radius: 999px;
   background: linear-gradient(180deg, #fff6ea, #fbe9d6);
-  box-shadow: 0 10px 22px #79203933, inset 0 1px 0 #ffffffb3;
+  box-shadow: 0 4px 10px #7920391f, inset 0 1px 0 #ffffffb3;
   color: #6d1228;
   text-decoration: none;
   overflow: hidden;
@@ -4919,7 +4919,7 @@ body,
 }
 .club-info a.cc-gbtn:active {
   transform: scale(0.98);
-  box-shadow: 0 5px 12px #79203933, inset 0 1px 0 #ffffffb3;
+  box-shadow: 0 2px 5px #7920391f, inset 0 1px 0 #ffffffb3;
 }
 .cc-gbtn-logo {
   flex: 0 0 auto;
@@ -5046,7 +5046,7 @@ body,
   height: 46px;
   border-radius: 14px;
   background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
-  box-shadow: 0 4px 10px #d6249f44;
+  box-shadow: 0 2px 5px #d6249f2e;
 }
 .cc-igbtn-ico svg {
   width: 26px;
