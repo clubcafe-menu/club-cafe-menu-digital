@@ -4849,3 +4849,12 @@ body,
 .cc-pairs button:active {
   transform: scale(0.97);
 }
+
+/* Résultats groupés (favoris, recherche, filtres) : la photo ronde dépasse au-dessus de la carte.
+   On laisse la place sous le titre du groupe pour que le titre ne passe plus sur la photo. */
+#ccFavoritePanel .cc-result-group > h3 {
+  margin-bottom: 0;
+}
+.cc-result-group > .products:not(.offers-grid) {
+  padding-top: 72px;
+}
