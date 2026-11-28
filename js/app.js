@@ -159,6 +159,35 @@ function ccDetailBase(p, mobile = false) {
   return `<div class="detailtop"><div class="detailactions"><button class="outline" data-back aria-label="Retour"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7"/></svg></button><span class="outline" aria-hidden="true">♡</span></div><img class="heroimage" src="${p.img}" alt="${safe(p.name)}" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='${p.fallbackImg || photo.capp}'"></div><div class="detailbody"><span class="tag">${p.cat === 'offres' ? '✦ Offre de démonstration' : '✦ Club Café'}</span><div class="detailheading"><h1>${safe(p.name)}</h1><span class="pricepill">${safe(p.price)}</span></div><div class="detail-divider"></div><p class="detail-intro">Une pause à savourer</p><h2>À découvrir</h2><p class="description">${safe(p.detail)}</p><div class="specs"><span class="spec">${safe(p.extra)}</span><span class="spec">${safe(cats.find((c) => c.id === p.cat)?.name || '')}</span></div><p class="footerline">${p.cat === 'offres' ? 'Offre fictive : composition et prix uniquement illustratifs.' : 'Noms et recettes d’après les cartes Club Café. Photos illustratives non contractuelles ; allergènes, disponibilité et tarifs à confirmer en café.'}</p></div>`;
 }
 let ccReturnFocus = null;
+// Toucher fiable : agit dès que le doigt se lève (sans attendre « click », qui peut être perdu si le doigt bouge un peu
+// ou si l'écran s'anime), et évite le double déclenchement avec le click qui suit.
+let ccLastFastTap = 0; // global : le click qui suit peut tomber sur le NOUVEAU bouton si l'écran a été re-rendu entre-temps
+function ccFastTap(el, fn) {
+  let sx = 0,
+    sy = 0,
+    down = false;
+  el.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse') return;
+    down = true;
+    sx = e.clientX;
+    sy = e.clientY;
+  });
+  el.addEventListener('pointercancel', () => {
+    down = false;
+  });
+  el.addEventListener('pointerup', (e) => {
+    if (!down) return;
+    down = false;
+    if (Math.hypot(e.clientX - sx, e.clientY - sy) > 14) return;
+    ccLastFastTap = Date.now();
+    fn();
+  });
+  el.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (Date.now() - ccLastFastTap < 600) return;
+    fn();
+  });
+}
 const ccShell = document.querySelector('.shell');
 // Pendant l'ouverture d'une fiche produit, tout le fond est inerte SAUF la barre de navigation du bas (elle reste cliquable).
 function ccSetBackgroundInert(value) {
@@ -185,11 +214,11 @@ function showItem(p, openMobile = false) {
   if (openMobile && mobileViewport) {
     if (!m.classList.contains('open')) ccReturnFocus = document.activeElement;
     m.innerHTML = detailHTML(p, true);
-    m.querySelector('[data-back]').onclick = () => {
+    ccFastTap(m.querySelector('[data-back]'), () => {
       // Retour d'une seule étape : produit précédent, ou fermeture de la fiche (immédiat, sans attendre popstate)
       if (window.ccBack) window.ccBack();
       else closeDetail();
-    };
+    });
     m.classList.add('open');
     m.removeAttribute('aria-hidden');
     m.inert = false;
@@ -449,10 +478,10 @@ showItem(current);
     home.classList.add('nav-page-open');
     active(btn);
     top();
-    page.querySelector('.club-page-back').onclick = () => {
+    ccFastTap(page.querySelector('.club-page-back'), () => {
       closePage();
       top();
-    };
+    });
   }
   const back = '<button type="button" class="club-page-back">← Retour à la carte</button>';
   // « Accueil » : retour complet au tout début, depuis n'importe quelle page (fiche produit, catégorie, recherche, favoris, infos…)
