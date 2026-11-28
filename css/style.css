@@ -5032,3 +5032,43 @@ body,
   background: #792039;
   color: #f3e4d0;
 }
+
+/* Infos : bouton Instagram (même gabarit que le bouton Google) */
+.club-info a.cc-igbtn {
+  min-height: 70px;
+  padding-left: 14px;
+}
+.cc-igbtn-ico {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+  box-shadow: 0 4px 10px #d6249f44;
+}
+.cc-igbtn-ico svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+}
+.cc-igbtn .cc-gbtn-txt small {
+  font-size: 11px;
+}
+.cc-igbtn .cc-gbtn-txt strong {
+  font-size: 22px;
+  letter-spacing: -0.3px;
+  margin-top: 2px;
+}
+@media (max-width: 360px) {
+  .cc-igbtn-ico {
+    width: 40px;
+    height: 40px;
+  }
+  .cc-igbtn .cc-gbtn-txt strong {
+    font-size: 18px;
+  }
+}
