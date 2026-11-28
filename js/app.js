@@ -532,10 +532,15 @@ showItem(current);
         }),
     );
   };
+  // Lien « Laisser un avis Google » : à remplir avec le lien d'avis du café (voir explications). Vide = la carte n'apparaît pas.
+  const ccReviewUrl = 'https://search.google.com/local/writereview?placeid=ChIJpZXcB0f15kcReG6Zc9onsis';
+  const ccReviewCard = /^https:\/\//.test(ccReviewUrl)
+    ? `<article class="club-review"><h3>Votre avis compte</h3><p>Vous avez aimé votre pause ? Laissez-nous un avis sur Google, cela nous aide beaucoup.</p><a class="club-review-btn" href="${ccReviewUrl}" target="_blank" rel="noopener noreferrer">★ Donner mon avis sur Google</a></article>`
+    : '';
   ab.onclick = () =>
     openPage(
       back +
-        `<h1 class="club-page-title">Infos pratiques</h1><p class="club-page-note">Votre café Club Café</p><div class="club-info"><article><h3>Horaires d’ouverture</h3><p>À consulter auprès de votre café.</p></article><article><h3>Adresse et téléphone</h3><p>Coordonnées du café à renseigner.</p></article><article><h3>Wi-Fi</h3><p>Renseignez-vous auprès de l’équipe.</p></article><article><h3>Instagram</h3><p>Compte du café à renseigner.</p></article><article><h3>Allergènes</h3><p>Pour toute allergie ou intolérance, demandez les informations à notre équipe avant de consommer.</p></article><article><h3>Notre carte digitale</h3><p>Photos illustratives. Disponibilité et tarifs à confirmer en café. Aucun achat ni commande en ligne.</p></article></div>`,
+        `<h1 class="club-page-title">Infos pratiques</h1><p class="club-page-note">Votre café Club Café</p><div class="club-info">${ccReviewCard}<article><h3>Horaires d’ouverture</h3><p>À consulter auprès de votre café.</p></article><article><h3>Adresse et téléphone</h3><p>Coordonnées du café à renseigner.</p></article><article><h3>Wi-Fi</h3><p>Renseignez-vous auprès de l’équipe.</p></article><article><h3>Instagram</h3><p>Compte du café à renseigner.</p></article><article><h3>Allergènes</h3><p>Pour toute allergie ou intolérance, demandez les informations à notre équipe avant de consommer.</p></article><article><h3>Notre carte digitale</h3><p>Photos illustratives. Disponibilité et tarifs à confirmer en café. Aucun achat ni commande en ligne.</p></article></div>`,
       ab,
     );
   document.addEventListener('keydown', (e) => {
