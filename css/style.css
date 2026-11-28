@@ -4896,31 +4896,107 @@ body,
   z-index: 3;
 }
 
-/* Infos : carte « avis Google » */
-.club-info .club-review {
-  background: #792039;
-  border-color: #792039;
-}
-.club-info .club-review h3 {
-  color: #f3e4d0;
-}
-.club-info .club-review p {
-  color: #f3e4d0cc;
-  margin-bottom: 12px;
-}
-.club-info a.club-review-btn {
+/* Infos : bouton « avis Google » */
+.club-info a.cc-gbtn {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 44px;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 78px;
+  padding: 10px 14px 10px 18px;
+  border: 2px solid #7a1230;
   border-radius: 999px;
-  background: #f3e4d0;
-  color: #792039;
-  font-weight: 700;
-  font-size: 14px;
+  background: linear-gradient(180deg, #fff6ea, #fbe9d6);
+  box-shadow: 0 10px 22px #79203933, inset 0 1px 0 #ffffffb3;
+  color: #6d1228;
   text-decoration: none;
+  overflow: hidden;
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
-.club-info a.club-review-btn:active {
-  transform: scale(0.97);
+.club-info a.cc-gbtn::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  width: 36%;
+  height: 58%;
+  border: 5px solid #8c1431;
+  border-color: #8c1431 transparent transparent #8c1431;
+  border-radius: 999px 0 0 0;
+  pointer-events: none;
+}
+.club-info a.cc-gbtn:active {
+  transform: scale(0.98);
+  box-shadow: 0 5px 12px #79203933, inset 0 1px 0 #ffffffb3;
+}
+.cc-gbtn-logo {
+  flex: 0 0 auto;
+  width: 84px;
+  height: auto;
+  position: relative;
+}
+.cc-gbtn-sep {
+  flex: 0 0 auto;
+  width: 2px;
+  align-self: stretch;
+  margin: 6px 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, transparent, #7a1230 20%, #7a1230 80%, transparent);
+}
+.cc-gbtn-g {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+}
+.cc-gbtn-txt {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  line-height: 1.05;
+}
+.cc-gbtn-txt small {
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cc-gbtn-txt strong {
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.cc-gbtn-stars {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #f9ab1a;
+  line-height: 1;
+  margin-top: 2px;
+}
+.cc-gbtn-chev {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #6d1228;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+@media (max-width: 360px) {
+  .cc-gbtn-logo {
+    width: 68px;
+  }
+  .cc-gbtn-g {
+    width: 30px;
+    height: 30px;
+  }
+  .cc-gbtn-txt strong {
+    font-size: 21px;
+  }
+  .cc-gbtn-txt small {
+    font-size: 10px;
+  }
 }
