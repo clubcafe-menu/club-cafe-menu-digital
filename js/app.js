@@ -506,11 +506,24 @@ ccDetailSteps.push((html) =>
 showItem(current);
 
 ccDetailSteps.push((html, p) => {
-  const target = ['cafes', 'gourmands', 'froids'].includes(p.cat) ? ['desserts', 'matin'] : ['cafes', 'froids'];
-  const picks = items.filter((x) => x.id !== p.id && target.includes(x.cat)).slice(0, 3);
+  let picks = [];
+  if (Array.isArray(p.pair) && p.pair.length) {
+    // choix manuel : colonne « pair » de la feuille produits (ids séparés par des virgules)
+    picks = p.pair.map((id) => ccAll.find((x) => x.id === id)).filter((x) => x && x.id !== p.id).slice(0, 4);
+  } else {
+    // automatique : un produit par catégorie différente (indépendant des noms de catégories)
+    const byCat = new Map();
+    items.forEach((x) => {
+      if (x.id === p.id || x.cat === p.cat || !x.name) return;
+      if (!byCat.has(x.cat)) byCat.set(x.cat, []);
+      byCat.get(x.cat).push(x);
+    });
+    picks = [...byCat.values()].map((list) => list[p.id % list.length]).slice(0, 3);
+  }
+  if (!picks.length) return html; // rien à proposer : la section n'est pas affichée
   return html.replace(
     '<p class="footerline">',
-    `<section class="cc-extra"><h3>Suggestions gourmandes</h3><div class="cc-pairs">${picks.map((x) => `<button type="button" data-pair="${x.id}"><img src="${safe(x.img)}" alt="">${safe(x.name)}</button>`).join('')}</div></section><p class="footerline">`,
+    `<section class="cc-extra"><h3>Suggestions gourmandes</h3><div class="cc-pairs">${picks.map((x) => `<button type="button" data-pair="${x.id}"><img src="${safe(x.img)}" alt="" onerror="this.onerror=null;this.src='${x.fallbackImg || photo.capp}'">${safe(x.name)}</button>`).join('')}</div></section><p class="footerline">`,
   );
 });
 document.addEventListener('click', (e) => {
