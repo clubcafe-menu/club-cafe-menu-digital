@@ -523,7 +523,7 @@ ccDetailSteps.push((html, p) => {
   if (!picks.length) return html; // rien à proposer : la section n'est pas affichée
   return html.replace(
     '<p class="footerline">',
-    `<section class="cc-extra"><h3>Suggestions gourmandes</h3><div class="cc-pairs">${picks.map((x) => `<button type="button" data-pair="${x.id}"><img src="${safe(x.img)}" alt="" onerror="this.onerror=null;this.src='${x.fallbackImg || photo.capp}'">${safe(x.name)}</button>`).join('')}</div></section><p class="footerline">`,
+    `<section class="cc-extra"><h3>Suggestions gourmandes</h3><div class="cc-pairs">${picks.map((x) => `<button type="button" data-pair="${x.id}"><img src="${safe(x.img)}" alt="" onerror="this.onerror=null;this.src='${x.fallbackImg || photo.capp}'"><span>${safe(x.name)}</span></button>`).join('')}</div></section><p class="footerline">`,
   );
 });
 document.addEventListener('click', (e) => {
