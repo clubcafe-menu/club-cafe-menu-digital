@@ -4895,3 +4895,32 @@ body,
   position: relative;
   z-index: 3;
 }
+
+/* Infos : carte « avis Google » */
+.club-info .club-review {
+  background: #792039;
+  border-color: #792039;
+}
+.club-info .club-review h3 {
+  color: #f3e4d0;
+}
+.club-info .club-review p {
+  color: #f3e4d0cc;
+  margin-bottom: 12px;
+}
+.club-info a.club-review-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border-radius: 999px;
+  background: #f3e4d0;
+  color: #792039;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+.club-info a.club-review-btn:active {
+  transform: scale(0.97);
+}
