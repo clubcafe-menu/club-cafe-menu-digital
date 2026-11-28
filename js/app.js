@@ -455,9 +455,22 @@ showItem(current);
     };
   }
   const back = '<button type="button" class="club-page-back">← Retour à la carte</button>';
+  // « Accueil » : retour complet au tout début, depuis n'importe quelle page (fiche produit, catégorie, recherche, favoris, infos…)
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const toStart = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    chips.scrollTo({ left: 0, behavior: 'instant' });
+    products.scrollTo({ left: 0, behavior: 'instant' });
+    document.querySelector('.featured-items')?.scrollTo({ left: 0, behavior: 'instant' });
+  };
   hb.onclick = () => {
     closePage();
     ccGoHome();
+    toStart();
+    // le navigateur peut restaurer l'ancienne position après la fermeture de la fiche : on remet le haut juste après
+    requestAnimationFrame(toStart);
+    setTimeout(toStart, 120);
+    setTimeout(toStart, 400);
   };
   mb.onclick = () => {
     openPage(
