@@ -4880,3 +4880,18 @@ body,
 #ccFavoritePanel .cc-result-group > .products.offers-grid {
   padding-top: 14px;
 }
+
+
+/* Bouton retour : réponse immédiate au toucher, zone tactile confortable */
+.detailactions .outline,
+.club-page-back,
+.nav button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.detailactions .outline {
+  min-width: 44px;
+  min-height: 44px;
+  position: relative;
+  z-index: 3;
+}
